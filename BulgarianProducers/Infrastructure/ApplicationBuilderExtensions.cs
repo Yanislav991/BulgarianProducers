@@ -18,6 +18,7 @@ namespace BulgarianProducers.Infrastructure
             var data =scopedServices.ServiceProvider.GetService<BulgarianProducersDbContext>();
             data.Database.Migrate();
             SeedCategories(data);
+            SeedServiceTypes(data);
             return app;
         }
 
@@ -32,6 +33,21 @@ namespace BulgarianProducers.Infrastructure
                 new Category{Name ="Foods"},
                 new Category{Name ="Drinks"},
                 new Category{Name ="Other"}
+            });
+            data.SaveChanges();
+        }
+        private static void SeedServiceTypes(BulgarianProducersDbContext data)
+        {
+            if (data.ServiceTypes.Any())
+            {
+                return;
+            }
+            data.AddRange(new ServiceType[]
+            {
+                new ServiceType{Name ="Transport"},
+                new ServiceType{Name ="Moving Services"},
+                new ServiceType{Name ="Craftsman"},
+                new ServiceType{Name ="Painting"}
             });
             data.SaveChanges();
         }

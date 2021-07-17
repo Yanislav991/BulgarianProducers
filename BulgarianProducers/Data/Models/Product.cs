@@ -5,10 +5,11 @@ using static BulgarianProducers.Data.DataConstants;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using BulgarianProducers.Infrastructure;
 
 namespace BulgarianProducers.Data.Models
 {
-    public class Product
+    public class Product : BaseEntity
     {
         public int Id { get; set; }
         [Required]

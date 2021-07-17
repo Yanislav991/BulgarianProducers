@@ -4,14 +4,16 @@ using BulgarianProducers.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BulgarianProducers.Data.Migrations
 {
     [DbContext(typeof(BulgarianProducersDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210717130823_AddedServicesAndBaseEntityPropertiesCreatedUpdated")]
+    partial class AddedServicesAndBaseEntityPropertiesCreatedUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,9 +92,6 @@ namespace BulgarianProducers.Data.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -100,9 +99,6 @@ namespace BulgarianProducers.Data.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,4)");
-
-                    b.Property<int>("ServiceTypeId")
-                        .HasColumnType("int");
 
                     b.Property<TimeSpan?>("TimeNeeded")
                         .HasColumnType("time");
@@ -112,26 +108,7 @@ namespace BulgarianProducers.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ServiceTypeId");
-
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("BulgarianProducers.Data.Models.ServiceType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ServiceTypes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -345,17 +322,6 @@ namespace BulgarianProducers.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("BulgarianProducers.Data.Models.Service", b =>
-                {
-                    b.HasOne("BulgarianProducers.Data.Models.ServiceType", "ServiceType")
-                        .WithMany("Services")
-                        .HasForeignKey("ServiceTypeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ServiceType");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -410,11 +376,6 @@ namespace BulgarianProducers.Data.Migrations
             modelBuilder.Entity("BulgarianProducers.Data.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("BulgarianProducers.Data.Models.ServiceType", b =>
-                {
-                    b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
         }
