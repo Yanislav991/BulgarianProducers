@@ -23,6 +23,8 @@ namespace BulgarianProducers.Models.Services
         [Required]
         [MaxLength(250)]
         public string AdditionalInformation { get; set; }
+        [Required]
+        [Url]
         public string ImageUrl { get; set; }
         public int ServiceTypeId { get; set; }
         public IEnumerable<ServiceTypeModel> ServiceTypes { get; set; }

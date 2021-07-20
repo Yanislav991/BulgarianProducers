@@ -1,0 +1,48 @@
+﻿@model List<AgriculturalEventsListingModel>
+@{
+    var i = 0;
+}
+@if (Model == null)
+{
+
+
+    <h1>За сега няма събития</h1>
+
+}
+<a class="nav-link btn-primary btn-lg" asp-area="" asp-controller="AgriculturalEvents" asp-action="Add">Добави ново събитие!</a>
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Име</th>
+                <th scope="col">Къде се провежда</th>
+                <th scope="col">Започва на</th>
+                <th scope="col">Приключва</th>
+                <th scope="col">Информация</th>>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (var element in Model)
+            {
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@element.Name</td>
+                    <td>@element.Place</td>
+                    <td>@element.StartDate</td>
+                    <td>@element.EndDate</td>
+                    <td>
+                        <a asp-controller="AgriculturalEvents" asp-action="Info" class="btn btn-primary"><i class="fas fa-search"></i></a>
+                    </td>
+                </tr>
+                i++;
+
+
+            }
+        </tbody>
+    </table>
+
+}

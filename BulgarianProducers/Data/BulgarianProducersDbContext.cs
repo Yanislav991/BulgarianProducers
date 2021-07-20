@@ -19,6 +19,8 @@ namespace BulgarianProducers.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceType> ServiceTypes { get; set; }
+        public DbSet<AgriculturalEvent> AgriculturalEvents { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder

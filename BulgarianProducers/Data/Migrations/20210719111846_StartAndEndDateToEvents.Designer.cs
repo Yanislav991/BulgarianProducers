@@ -4,14 +4,16 @@ using BulgarianProducers.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BulgarianProducers.Data.Migrations
 {
     [DbContext(typeof(BulgarianProducersDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210719111846_StartAndEndDateToEvents")]
+    partial class StartAndEndDateToEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,24 +71,25 @@ namespace BulgarianProducers.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BulgarianProducers.Data.Models.EventImage", b =>
+            modelBuilder.Entity("BulgarianProducers.Data.Models.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AgriculturalEventId")
+                    b.Property<int?>("AgriculturalEventId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Url")
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AgriculturalEventId");
 
-                    b.ToTable("EventImage");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("BulgarianProducers.Data.Models.Product", b =>
@@ -387,15 +390,11 @@ namespace BulgarianProducers.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BulgarianProducers.Data.Models.EventImage", b =>
+            modelBuilder.Entity("BulgarianProducers.Data.Models.Image", b =>
                 {
-                    b.HasOne("BulgarianProducers.Data.Models.AgriculturalEvent", "AgriculturalEvent")
+                    b.HasOne("BulgarianProducers.Data.Models.AgriculturalEvent", null)
                         .WithMany("Images")
-                        .HasForeignKey("AgriculturalEventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AgriculturalEvent");
+                        .HasForeignKey("AgriculturalEventId");
                 });
 
             modelBuilder.Entity("BulgarianProducers.Data.Models.Product", b =>
