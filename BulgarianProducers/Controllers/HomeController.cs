@@ -1,6 +1,7 @@
 ﻿using BulgarianProducers.Data;
 using BulgarianProducers.Models;
 using BulgarianProducers.Models.Products;
+using BulgarianProducers.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,28 +15,28 @@ namespace BulgarianProducers.Controllers
     public class HomeController : Controller
     {
         private readonly BulgarianProducersDbContext data;
+        private readonly IGetServicesAndProductsService getServicesAndProducts;
 
-        public HomeController(BulgarianProducersDbContext data)
+        public HomeController(BulgarianProducersDbContext data, IGetServicesAndProductsService getServicesAndProducts)
         {
             this.data = data;
+            this.getServicesAndProducts = getServicesAndProducts;
+
         }
 
         public IActionResult Index()
         {
-            var lastSixProducts = data.Products
-                .OrderByDescending(x=>x.Id)
-                .Take(6)
-                .Select(x => new ProductsListingViewModel
-            {
-                Category = x.Category.Name,
-                Id = x.Id,
-                ImageUrl = x.ImageUrl,
-                Name =x.Name
-            }).ToList();
+            var lastSixProducts = getServicesAndProducts.GetServicesAndProducts()
+                .Take(6).ToList();
+                
 
             return View(lastSixProducts);
         }
-
+        public IActionResult All()
+        {
+            var productsToShow = getServicesAndProducts.GetServicesAndProducts();
+            return this.View(productsToShow);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -35,7 +35,7 @@
                     <td>@element.StartDate</td>
                     <td>@element.EndDate</td>
                     <td>
-                        <a asp-controller="AgriculturalEvents" asp-action="Info" class="btn btn-primary"><i class="fas fa-search"></i></a>
+                        <a asp-controller="AgriculturalEvents" asp-action="Info" class="btn btn-primary" asp-route-id="@element.Id"><i class="fas fa-search"></i></a>
                     </td>
                 </tr>
                 i++;

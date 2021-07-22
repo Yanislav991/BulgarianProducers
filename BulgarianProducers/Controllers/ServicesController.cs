@@ -37,7 +37,7 @@ namespace BulgarianProducers.Controllers
             var ts = TimeSpan.FromHours((double)service.TimeNeeded);
             var validService = new Service()
             {
-                AdditionalInformation = service.AdditionalInformation,
+                Description = service.AdditionalInformation,
                 ImageUrl = service.ImageUrl,
                 Name = service.Name,
                 Price = service.Price,
@@ -48,6 +48,19 @@ namespace BulgarianProducers.Controllers
             data.SaveChanges();
             //Should fix it later;
             return this.Redirect("/Products/All");
+        }
+        public IActionResult Details(int id) 
+        {
+            var service = data.Services.Where(x => x.Id == id).Select(x => new ServiceViewModel
+            {
+                Description = x.Description,
+                ImageUrl = x.ImageUrl,
+                Name = x.Name,
+                Price = x.Price,
+                ServiceType = x.ServiceType.Name,
+                TimeNeeded = x.TimeNeeded.HasValue ? x.TimeNeeded.Value.ToString(@"dd\.hh\:mm\:ss") : "Не е посочено време",
+            }).FirstOrDefault();
+            return this.View(service);
         }
         private IEnumerable<ServiceTypeModel> GetServiceTypes()
         => data.ServiceTypes

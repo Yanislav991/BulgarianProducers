@@ -20,7 +20,7 @@ namespace BulgarianProducers.Data
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceType> ServiceTypes { get; set; }
         public DbSet<AgriculturalEvent> AgriculturalEvents { get; set; }
-        
+        public DbSet<EventImage> EventImages { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder

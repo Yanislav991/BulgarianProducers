@@ -1,5 +1,7 @@
 using BulgarianProducers.Data;
 using BulgarianProducers.Infrastructure;
+using BulgarianProducers.Services;
+using BulgarianProducers.Services.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,6 +36,8 @@ namespace BulgarianProducers
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<BulgarianProducersDbContext>();
             services.AddControllersWithViews();
+
+            services.AddTransient<IGetServicesAndProductsService, GetServicesAndProductsService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

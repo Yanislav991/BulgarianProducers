@@ -16,19 +16,7 @@ namespace BulgarianProducers.Controllers
         {
             this.data = data;
         }
-        public IActionResult All() 
-        {
-            var productsToShow = data.Products.Select(product => new ProductViewModel
-            {
-                Id = product.Id,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                Name = product.Name,
-                Category = product.Category.Name
-            }).ToList();
-            return this.View(productsToShow);
-        }
+ 
         public IActionResult Details(string id) 
         {
             

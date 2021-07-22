@@ -21,7 +21,7 @@ namespace BulgarianProducers.Data.Models
         public TimeSpan? TimeNeeded { get; set; }
         [Required]
         [MaxLength(250)]
-        public string AdditionalInformation { get; set; }
+        public string Description { get; set; }
         public string ImageUrl { get; set; }
         public int ServiceTypeId { get; set; }
         public ServiceType ServiceType { get; set; }

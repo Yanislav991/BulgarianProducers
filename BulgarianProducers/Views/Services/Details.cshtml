@@ -1,4 +1,4 @@
-﻿@model ProductViewModel
+﻿@model ServiceViewModel
 <div class="container bootdey">
     <div class="col-md-12">
         <section class="panel">
@@ -18,8 +18,8 @@
                         @Model.Description
                     </p>
                     <div class="product_meta">
-                        <span class="posted_in"> <strong>Категория:</strong> <a rel="tag" href="#">@Model.Category</a></span>
-                        
+                        <span class="posted_in"> <strong>Тип услуга:</strong> <a rel="tag" href="#">@Model.ServiceType</a></span>
+
                     </div>
                     <div class="m-bot15"> <strong>Price : </strong> <span class="amount-old">@Math.Round(Model.Price, 2)</span></div>
                     <p>

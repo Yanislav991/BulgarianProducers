@@ -18,7 +18,7 @@ namespace BulgarianProducers.Controllers
         {
             this.data = data;
         }
-
+  
         public IActionResult Add()
         {
             return this.View();
@@ -83,7 +83,34 @@ namespace BulgarianProducers.Controllers
                 StartDate = x.StartDate.ToString("d"),
                 EndDate = x.EndDate.ToString("d")
             }).ToList();
+            if (events == null) 
+            {
+                return this.Redirect("/AgriculturalEvents/Add");
+            }
             return this.View(events);
         }
+
+
+        public IActionResult Info(int id) 
+        {
+
+            var @event = data.AgriculturalEvents
+                .Where(x=>x.Id == id)
+                .Select(x => new AgriculturalEventInfoModel
+            {
+                Description = x.Description,
+                EndDate = x.EndDate.ToString("d"),
+                StartDate = x.StartDate.ToString("d"),
+                ImagesUrls = x.Images.Select(x => x.Url).ToList(),
+                Name = x.Name,
+                Place = x.Place
+            }).FirstOrDefault();
+            if (@event == null)
+            {
+                return this.BadRequest();
+            }
+            return this.View(@event);
+        }
+       
     }
 }
