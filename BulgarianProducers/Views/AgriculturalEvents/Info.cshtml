@@ -8,9 +8,9 @@
     </div>
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
-        @for (int i = 0; i < Model.ImagesUrls.Count(); i++)
+        @for (int i = 0; i < Model.ImageUrls.Count(); i++)
         {
-            var image = Model.ImagesUrls[i];
+            var image = Model.ImageUrls[i];
             <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
                 <img class="d-block w-100" src="@image" alt="@Model.Name">
                 <div class="carousel-caption d-none d-md-block">

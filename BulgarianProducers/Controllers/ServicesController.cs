@@ -1,6 +1,8 @@
-﻿using BulgarianProducers.Data;
+﻿using AutoMapper;
+using BulgarianProducers.Data;
 using BulgarianProducers.Data.Models;
 using BulgarianProducers.Models.Services;
+using BulgarianProducers.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,64 +12,45 @@ using System.Threading.Tasks;
 namespace BulgarianProducers.Controllers
 {
     public class ServicesController : Controller
-    {
-        private readonly BulgarianProducersDbContext data;
-
-        public ServicesController(BulgarianProducersDbContext context)
+    { 
+        private readonly IServicesService servicesService;
+        private readonly IServiceTypeService serviceTypeService;
+        public ServicesController(IServicesService servicesService, IServiceTypeService serviceTypeService)
         {
-            this.data = context;
+            this.servicesService = servicesService;
+            this.serviceTypeService = serviceTypeService;
         }
 
         public IActionResult Add()
         {
-            return this.View(new AddServiceFormModel { ServiceTypes = GetServiceTypes() });
+            return this.View(new AddServiceFormModel { ServiceTypes = this.serviceTypeService.GetServiceTypes() });
         }
+        //Should be in service
         [HttpPost]
         public IActionResult Add(AddServiceFormModel service) 
         {
-            if (!data.ServiceTypes.Any(x => x.Id == service.ServiceTypeId)) 
+            if (!serviceTypeService.CheckForServiceTypeById(service.ServiceTypeId)) 
             {
                 this.ModelState.AddModelError(nameof(service.ServiceTypeId), "Category does not exist.");
             }
             if (!ModelState.IsValid) 
             {
-                service.ServiceTypes = GetServiceTypes();
+                service.ServiceTypes = this.serviceTypeService.GetServiceTypes();
                 return this.View(service);
             }
-            var ts = TimeSpan.FromHours((double)service.TimeNeeded);
-            var validService = new Service()
-            {
-                Description = service.AdditionalInformation,
-                ImageUrl = service.ImageUrl,
-                Name = service.Name,
-                Price = service.Price,
-                ServiceTypeId = service.ServiceTypeId,
-                TimeNeeded = ts,  
-            };
-            data.Services.Add(validService);
-            data.SaveChanges();
-            //Should fix it later;
-            return this.Redirect("/Products/All");
+            this.servicesService.AddService(service);
+            return this.Redirect("/Home/All");
         }
-        public IActionResult Details(int id) 
+        public IActionResult Details(int id, bool isProduct) 
         {
-            var service = data.Services.Where(x => x.Id == id).Select(x => new ServiceViewModel
-            {
-                Description = x.Description,
-                ImageUrl = x.ImageUrl,
-                Name = x.Name,
-                Price = x.Price,
-                ServiceType = x.ServiceType.Name,
-                TimeNeeded = x.TimeNeeded.HasValue ? x.TimeNeeded.Value.ToString(@"dd\.hh\:mm\:ss") : "Не е посочено време",
-            }).FirstOrDefault();
-            return this.View(service);
+           
+            if (isProduct) return this.BadRequest();
+            var serviceToShow = servicesService.GetService(id);
+            if (serviceToShow == null) return this.BadRequest();
+
+
+            return this.View(serviceToShow);
         }
-        private IEnumerable<ServiceTypeModel> GetServiceTypes()
-        => data.ServiceTypes
-            .Select(c => new ServiceTypeModel
-            {
-                Id = c.Id,
-                Name = c.Name
-            }).ToList();
+
     }
 }

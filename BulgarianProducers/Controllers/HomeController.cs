@@ -14,14 +14,13 @@ namespace BulgarianProducers.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly BulgarianProducersDbContext data;
+        
         private readonly IGetServicesAndProductsService getServicesAndProducts;
 
-        public HomeController(BulgarianProducersDbContext data, IGetServicesAndProductsService getServicesAndProducts)
+        public HomeController(IGetServicesAndProductsService getServicesAndProducts)
         {
-            this.data = data;
-            this.getServicesAndProducts = getServicesAndProducts;
 
+            this.getServicesAndProducts = getServicesAndProducts;
         }
 
         public IActionResult Index()

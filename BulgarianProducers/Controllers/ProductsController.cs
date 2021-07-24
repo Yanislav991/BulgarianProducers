@@ -1,6 +1,8 @@
-﻿using BulgarianProducers.Data;
+﻿using AutoMapper;
+using BulgarianProducers.Data;
 using BulgarianProducers.Data.Models;
 using BulgarianProducers.Models.Products;
+using BulgarianProducers.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,67 +13,40 @@ namespace BulgarianProducers.Controllers
 {
     public class ProductsController:Controller
     {
-        private readonly BulgarianProducersDbContext data;
-        public ProductsController(BulgarianProducersDbContext data)
+        private readonly IProductService productService;
+        private readonly ICategoriesService categoriesService;
+        public ProductsController(IProductService productService, ICategoriesService categoriesService)
         {
-            this.data = data;
+            this.productService = productService;
+            this.categoriesService = categoriesService;
         }
- 
-        public IActionResult Details(string id) 
+
+        public IActionResult Details(int id, bool isProduct) 
         {
-            
-        
-            var productToShow = data.Products.Where(x => x.Id == int.Parse(id)).Select(product => new ProductViewModel
-            {
-                Id = product.Id,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                Name = product.Name,
-                Category = product.Category.Name
-            }).FirstOrDefault();
-            if (productToShow == null)
-            {
-                //Soon will add ErrorView;
-                return this.BadRequest();
-            }
+            if (!isProduct) return this.BadRequest();
+            var productToShow = this.productService.GetProduct(id);
+            if (productToShow == null) return this.BadRequest();
             return this.View(productToShow);
         }
         public IActionResult Add() 
-        {
-            
-            return this.View(new AddProductFormModel { Categories = GetCategories()});
+        { 
+            return this.View(new AddProductFormModel { Categories = this.categoriesService.GetCategories()});
         }
         [HttpPost]
         public IActionResult Add(AddProductFormModel product)
         {
-            if (!this.data.Categories.Any(x => x.Id == product.CategoryId)) 
+            if (!this.categoriesService.CheckForCategoryById(product.CategoryId)) 
             {
                 this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
             }
             if (!ModelState.IsValid) 
             {
-                product.Categories = GetCategories();
+                product.Categories = this.categoriesService.GetCategories();
                 return View(product);
             }
-            var dataproduct = new Product
-            {
-                Name = product.Name,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                Category = data.Categories.FirstOrDefault(x => x.Id == product.CategoryId)
-            };
-            data.Products.Add(dataproduct);
-            data.SaveChanges();
+            this.productService.AddProduct(product);
             return this.Redirect("/");
         }
-        private IEnumerable<ProductsCategoryModel> GetCategories()
-             => this.data.Categories
-            .Select(c => new ProductsCategoryModel 
-            { 
-                Id = c.Id,
-                Name = c.Name 
-            }).ToList();
+
     }
 }

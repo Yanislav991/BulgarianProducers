@@ -1,4 +1,6 @@
-﻿using BulgarianProducers.Data;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using BulgarianProducers.Data;
 using BulgarianProducers.Services.Contracts;
 using BulgarianProducers.Services.Models;
 using System;
@@ -11,35 +13,21 @@ namespace BulgarianProducers.Services
     public class GetServicesAndProductsService : IGetServicesAndProductsService
     {
         private readonly BulgarianProducersDbContext data;
-
-        public GetServicesAndProductsService(BulgarianProducersDbContext data)
+        private readonly IMapper mapper;
+        public GetServicesAndProductsService(BulgarianProducersDbContext data, IMapper mapper)
         {
             this.data = data;
+            this.mapper = mapper;
         }
 
         public IEnumerable<ProductsAndServicesListingModel> GetServicesAndProducts()
         {
-            var listingEntities = data.Products.Select(x => new ProductsAndServicesListingModel
-            {
-                Description =x.Description,
-                Id = x.Id,
-                ImageUrl = x.ImageUrl,
-                Name =x.Name,
-                Price = x.Price,
-                IsProduct = true,
-                CreatedOn = x.CreatedDate
-            }).ToList();
+            var products = data.Products.ToList();
+            var listingEntities = mapper.Map<List<ProductsAndServicesListingModel>>(products);
+            var services = data.Services.ToList();
+            var listingServices = mapper.Map<List<ProductsAndServicesListingModel>>(services);
+            listingEntities.AddRange(listingServices);
 
-            listingEntities.AddRange(data.Services.Select(x => new ProductsAndServicesListingModel
-            {
-                Description = x.Description,
-                Id = x.Id,
-                ImageUrl = x.ImageUrl,
-                Name = x.Name,
-                Price = x.Price,
-                IsProduct = false,
-                CreatedOn = x.CreatedDate
-            }).ToList());
             listingEntities.OrderByDescending(x => x.CreatedOn).ToList();
             return listingEntities;
         }

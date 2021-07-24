@@ -24,6 +24,7 @@ namespace BulgarianProducers.Models.Products
         [Required]
         [Url]
         public string ImageUrl { get; set; }
+        [Required]
         public int CategoryId { get; set; }
         public IEnumerable<ProductsCategoryModel> Categories { get; set; }
     }

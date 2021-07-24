@@ -8,12 +8,12 @@
                 <h5 class="card-title">@element.Name</h5>
                 @if (element.IsProduct)
                 {
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@element.Id" class="btn btn-primary">Повече информация!</a>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@element.Id" asp-route-isProduct="@element.IsProduct" class="btn btn-primary">Повече информация!</a>
 
                 }
                 else
                 {
-                    <a asp-controller="Services" asp-action="Details" asp-route-id="@element.Id" class="btn btn-danger">Повече информация!</a>
+                    <a asp-controller="Services" asp-action="Details" asp-route-id="@element.Id" asp-route-isProduct="@element.IsProduct" class="btn btn-danger">Повече информация!</a>
                 }
             </div>
         </div>

@@ -28,6 +28,8 @@ namespace BulgarianProducers
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddDbContext<BulgarianProducersDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -38,6 +40,12 @@ namespace BulgarianProducers
             services.AddControllersWithViews();
 
             services.AddTransient<IGetServicesAndProductsService, GetServicesAndProductsService>();
+          
+            services.AddTransient<IEventsService, EventService>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IServiceTypeService, ServiceTypeService>();
+            services.AddTransient<IServicesService, ServicesService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

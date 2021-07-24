@@ -20,6 +20,6 @@ namespace BulgarianProducers.Data.Models
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public IEnumerable<EventImage> Images { get; set; } = new HashSet<EventImage>();   
+        public IEnumerable<EventImage> EventImages { get; set; } = new HashSet<EventImage>();   
     }
 }
