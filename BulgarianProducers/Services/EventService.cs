@@ -7,12 +7,15 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using static BulgarianProducers.Infrastructure.Constants;
 using System.Threading.Tasks;
+using BulgarianProducers.Services.Models;
 
 namespace BulgarianProducers.Services
 {
     public class EventService : IEventsService
     {
+
         private readonly BulgarianProducersDbContext data;
         private readonly IMapper mapper;
         public EventService(BulgarianProducersDbContext data, IMapper mapper)
@@ -48,34 +51,68 @@ namespace BulgarianProducers.Services
         public AgriculturalEventInfoModel GetEventById(int id)
         {
             var @event = data.AgriculturalEvents
-                .Where(x => x.Id == id).Select(x=> new AgriculturalEventInfoModel 
+                .Where(x => x.Id == id).Select(x => new AgriculturalEventInfoModel
                 {
                     Description = x.Description,
                     EndDate = x.EndDate.ToString("d"),
                     StartDate = x.StartDate.ToString("d"),
                     Id = x.Id,
-                    ImageUrls= x.EventImages.Select(x=>x.Url).ToList(),
-                    Name=x.Name,
-                    Place= x.Place
+                    ImageUrls = x.EventImages.Select(x => x.Url).ToList(),
+                    Name = x.Name,
+                    Place = x.Place
                 })
                 .FirstOrDefault();
-           // var images = @event.EventImages.Select(x => x.Url).ToList();
+            // var images = @event.EventImages.Select(x => x.Url).ToList();
             //var eventResult = mapper.Map<AgriculturalEventInfoModel>(@event);
-           //eventResult.ImageUrls = images;
+            //eventResult.ImageUrls = images;
             return @event;
 
 
         }
 
 
-        public IEnumerable<AgriculturalEventInfoModel> GetEvents()
+        public List<AgriculturalEventInfoModel> GetEvents(string searchTerm,
+            string place,
+            DateTime startAfter,
+            DateTime endBefore,
+            int currentPage,
+            EventSorting sorting)
         {
-            var events = data.AgriculturalEvents.ToList();
-            var eventsToList = mapper.Map<List<AgriculturalEventInfoModel>>(events);
+            var events = data.AgriculturalEvents.AsQueryable();
+            
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                events = events
+                    .Where(x => x.Description.ToLower().Contains(searchTerm)
+                    || x.Name.ToLower().Contains(searchTerm));
+            }
+            if (!string.IsNullOrEmpty(place))
+            {
+                events = events.Where(x => x.Place.ToLower().Contains(place));
+            }
+            if (startAfter != default(DateTime))
+            {
+                events = events.Where(x => x.StartDate > startAfter);
+            }
+            if (endBefore != default(DateTime))
+            {
+                events = events.Where(x => x.EndDate < endBefore);
+            }
+            events = sorting switch
+            {
+                EventSorting.Name => events.OrderBy(x=>x.Name),
+                EventSorting.Date => events.OrderBy(x=>x.StartDate)
+            };
+             
+            var eventsToList = mapper.Map<List<AgriculturalEventInfoModel>>(events).ToList();
+
+
             return eventsToList;
         }
 
-        private DateTime ParseDate(string date) 
+      
+
+        private DateTime ParseDate(string date)
         {
             DateTime dateTime;
             DateTime

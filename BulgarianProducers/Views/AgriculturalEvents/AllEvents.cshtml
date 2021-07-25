@@ -1,48 +1,58 @@
-﻿@model List<AgriculturalEventInfoModel>
-@{
-    var i = 0;
-}
+﻿@model AgriculturalEventQueryModel
+
 @if (Model == null)
 {
-
-
     <h1>За сега няма събития</h1>
-
 }
-<a class="nav-link btn-primary btn-lg" asp-area="" asp-controller="AgriculturalEvents" asp-action="Add">Добави ново събитие!</a>
-@if (Model != null)
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Име</th>
-                <th scope="col">Къде се провежда</th>
-                <th scope="col">Започва на</th>
-                <th scope="col">Приключва</th>
-                <th scope="col">Информация</th>>
-            </tr>
-        </thead>
-        <tbody>
+<form method="get">
 
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="Име на събитието...">
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Place"></label>
+            <input asp-for="Place" class="form-control" placeholder="Място на провеждане">
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="StartAfter"></label>
+            <input asp-for="StartAfter" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="EndBefore"></label>
+            <input asp-for="EndBefore" class="form-control">
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+        <div class="form-group">
+            <label asp-for="Sorting"></label>
+            <select asp-for="Sorting" class="form-control">
+                <option value="0" selected>Име</option>
+                <option value="1">Дата на начало</option>
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
 
-            @foreach (var element in Model)
-            {
-                <tr>
-                    <th scope="row">@i</th>
-                    <td>@element.Name</td>
-                    <td>@element.Place</td>
-                    <td>@element.StartDate</td>
-                    <td>@element.EndDate</td>
-                    <td>
-                        <a asp-controller="AgriculturalEvents" asp-action="Info" class="btn btn-primary" asp-route-id="@element.Id"><i class="fas fa-search"></i></a>
-                    </td>
-                </tr>
-                i++;
-
-
-            }
-        </tbody>
-    </table>
-
-}
+<partial name="_AllEventsPartial" model="@Model.Events" />
+<nav aria-label="...">
+    <ul class="pagination pagination-sm">
+        @for (int i = 1; i <= Math.Ceiling((double)Model.TotalEventsCount / EventsPerPage);  i++)
+        {
+            <li class="page-item"><a class="page-link" 
+                                     asp-controller="AgriculturalEvents" 
+                                     asp-action="AllEvents" 
+                                     asp-route-startAfter="@Model.StartAfter" 
+                                     asp-route-endBefore="@Model.EndBefore"
+                                     asp-route-place="@Model.Place"
+                                     asp-route-searchTerm="@Model.SearchTerm"
+                                     asp-route-currentPage = "@i"
+                                     asp-route-sorting="@Model.Sorting">@i</a></li>
+        }
+        
+    </ul>
+</nav>
