@@ -1,10 +1,8 @@
 ﻿using BulgarianProducers.Data;
 using BulgarianProducers.Models.Products;
 using BulgarianProducers.Services.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BulgarianProducers.Services
 {

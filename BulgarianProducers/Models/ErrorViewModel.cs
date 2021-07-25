@@ -1,5 +1,3 @@
-using System;
-
 namespace BulgarianProducers.Models
 {
     public class ErrorViewModel

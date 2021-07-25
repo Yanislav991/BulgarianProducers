@@ -1,22 +1,50 @@
-﻿@model List<ProductsAndServicesListingModel>
-<div class="d-flex p-2" col-md-6>
-    @foreach (var element in Model)
-    {
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="@element.ImageUrl" alt="@element.Name">
-            <div class="card-body">
-                <h5 class="card-title">@element.Name</h5>
-                @if (element.IsProduct)
-                {
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@element.Id" asp-route-isProduct="@element.IsProduct" class="btn btn-primary">Повече информация!</a>
-
-                }
-                else
-                {
-                    <a asp-controller="Services" asp-action="Details" asp-route-id="@element.Id" asp-route-isProduct="@element.IsProduct" class="btn btn-danger">Повече информация!</a>
-                }
-            </div>
+﻿@model ProductsAndServicesQueryModel
+<form method="get">
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="Име ...">
         </div>
-    }
+        <div class="form-group col-md-3">
+            <label asp-for="ShowServices"></label>
+            <input asp-for="ShowServices" class="form-control">
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="ShowProducts"></label>
+            <input asp-for="ShowProducts" class="form-control">
+        </div>
+    </div>
+    <div class="form-group col-md-4">
+        <div class="form-group">
+            <label asp-for="Sorting"></label>
+            <select asp-for="Sorting" class="form-control">
+                <option value="0" selected>Име</option>
+                <option value="1">Цена</option>
+                <option value="2">Първо продукти</option>
+                <option value="3">Първо услуги</option>
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
+<partial name="_AllPartial" model="@Model.ProductsAndServices" />
+<nav aria-label="...">
+    <ul class="pagination pagination-sm">
+        @for (int i = 1; i <= Math.Ceiling((double)Model.TotalElementsCount / ProductsAndServicesPerPage); i++)
+        {
+            <li class="page-item">
+                <a class="page-link"
+                   asp-controller="Home"
+                   asp-action="All"
+                   asp-route-showServices="@Model.ShowServices"
+                   asp-route-showProducts="@Model.ShowProducts"
+                   asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-currentPage="@i"
+                   asp-route-sorting="@Model.Sorting">@i</a>
+            </li>
+        }
 
-</div>
+    </ul>
+</nav>

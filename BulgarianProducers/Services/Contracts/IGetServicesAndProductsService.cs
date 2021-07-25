@@ -1,13 +1,17 @@
-﻿using BulgarianProducers.Services.Models;
-using System;
+﻿using BulgarianProducers.Models;
+using BulgarianProducers.Services.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BulgarianProducers.Services.Contracts
 {
     public interface IGetServicesAndProductsService
     {
-        public IEnumerable<ProductsAndServicesListingModel> GetServicesAndProducts();
+        public ProductsAndServicesQueryModel GetServicesAndProducts(
+            string searchTerm,
+            ProductsAndServicesSorting sorting,
+            bool showProducts,
+            bool showServices,
+            int currentPage);
+        
     }
 }

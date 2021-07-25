@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BulgarianProducers.Infrastructure
+﻿namespace BulgarianProducers.Infrastructure
 {
     public class Constants
     {
         public const int EventsPerPage = 2;
+        public const int ProductsAndServicesPerPage = 4;
     }
 }

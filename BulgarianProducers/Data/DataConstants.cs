@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BulgarianProducers.Data
+﻿namespace BulgarianProducers.Data
 {
     public static class DataConstants
     {

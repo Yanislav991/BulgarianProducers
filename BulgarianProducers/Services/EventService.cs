@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using static BulgarianProducers.Infrastructure.Constants;
-using System.Threading.Tasks;
 using BulgarianProducers.Services.Models;
 
 namespace BulgarianProducers.Services
@@ -71,7 +70,8 @@ namespace BulgarianProducers.Services
         }
 
 
-        public List<AgriculturalEventInfoModel> GetEvents(string searchTerm,
+        public AgriculturalEventQueryModel GetEvents(
+            string searchTerm,
             string place,
             DateTime startAfter,
             DateTime endBefore,
@@ -103,11 +103,27 @@ namespace BulgarianProducers.Services
                 EventSorting.Name => events.OrderBy(x=>x.Name),
                 EventSorting.Date => events.OrderBy(x=>x.StartDate)
             };
+            
              
-            var eventsToList = mapper.Map<List<AgriculturalEventInfoModel>>(events).ToList();
+            var eventsToList = mapper
+                .Map<List<AgriculturalEventInfoModel>>(events)
+                .Skip((currentPage - 1) * EventsPerPage)
+                .Take(EventsPerPage)
+                .ToList();
+            
+            var queryModel = new AgriculturalEventQueryModel()
+            {
+                StartAfter = startAfter,
+                CurrentPage = currentPage,
+                EndBefore = endBefore,
+                Events = eventsToList,
+                Place = place,
+                SearchTerm = searchTerm,
+                Sorting = sorting,
+                TotalEventsCount = events.Count()
+            };
 
-
-            return eventsToList;
+            return queryModel;
         }
 
       

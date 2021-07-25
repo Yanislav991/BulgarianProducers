@@ -1,0 +1,22 @@
+﻿@model List<ProductsAndServicesListingModel>
+<div class="d-flex p-2" col-md-6>
+    @foreach (var element in Model)
+    {
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="@element.ImageUrl" alt="@element.Name">
+            <div class="card-body">
+                <h5 class="card-title">@element.Name</h5>
+                @if (element.IsProduct)
+                {
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@element.Id" asp-route-isProduct="@element.IsProduct" class="btn btn-primary">Повече информация!</a>
+
+                }
+                else
+                {
+                    <a asp-controller="Services" asp-action="Details" asp-route-id="@element.Id" asp-route-isProduct="@element.IsProduct" class="btn btn-danger">Повече информация!</a>
+                }
+            </div>
+        </div>
+    }
+
+</div>

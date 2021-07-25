@@ -1,14 +1,9 @@
-﻿using BulgarianProducers.Data;
-using BulgarianProducers.Models;
-using BulgarianProducers.Models.Products;
+﻿using BulgarianProducers.Models;
 using BulgarianProducers.Services.Contracts;
+using BulgarianProducers.Services.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BulgarianProducers.Controllers
 {
@@ -25,16 +20,23 @@ namespace BulgarianProducers.Controllers
 
         public IActionResult Index()
         {
-            var lastSixProducts = getServicesAndProducts.GetServicesAndProducts()
-                .Take(6).ToList();
+            //var lastSixProducts = getServicesAndProducts.GetServicesAndProducts()
+                //.Take(6).ToList();
                 
 
-            return View(lastSixProducts);
+            return View();
         }
-        public IActionResult All()
+        public IActionResult All(ProductsAndServicesQueryModel queryModel)
         {
-            var productsToShow = getServicesAndProducts.GetServicesAndProducts();
-            return this.View(productsToShow);
+            var queryResult = getServicesAndProducts.GetServicesAndProducts(
+                queryModel.SearchTerm,
+                queryModel.Sorting,
+                queryModel.ShowProducts,
+                queryModel.ShowServices,
+                queryModel.CurrentPage);
+            
+            
+            return this.View(queryResult);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
