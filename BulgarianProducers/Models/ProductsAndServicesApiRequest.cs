@@ -1,4 +1,10 @@
-﻿namespace BulgarianProducers.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using static BulgarianProducers.Infrastructure.Constants;
+
+namespace BulgarianProducers.Models
 {
     public class ProductsAndServicesApiRequest
     {

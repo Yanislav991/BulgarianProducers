@@ -121,14 +121,9 @@ namespace BulgarianProducers.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -168,14 +163,9 @@ namespace BulgarianProducers.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ServiceTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Services");
                 });
@@ -260,10 +250,6 @@ namespace BulgarianProducers.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -315,8 +301,6 @@ namespace BulgarianProducers.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -403,28 +387,6 @@ namespace BulgarianProducers.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BulgarianProducers.Data.Models.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<string>("Nickname")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("PhotoUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
             modelBuilder.Entity("BulgarianProducers.Data.Models.EventImage", b =>
                 {
                     b.HasOne("BulgarianProducers.Data.Models.AgriculturalEvent", "AgriculturalEvent")
@@ -444,13 +406,7 @@ namespace BulgarianProducers.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BulgarianProducers.Data.Models.User", "User")
-                        .WithMany("Products")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Category");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BulgarianProducers.Data.Models.Service", b =>
@@ -461,13 +417,7 @@ namespace BulgarianProducers.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BulgarianProducers.Data.Models.User", "User")
-                        .WithMany("Services")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("ServiceType");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -533,13 +483,6 @@ namespace BulgarianProducers.Data.Migrations
 
             modelBuilder.Entity("BulgarianProducers.Data.Models.ServiceType", b =>
                 {
-                    b.Navigation("Services");
-                });
-
-            modelBuilder.Entity("BulgarianProducers.Data.Models.User", b =>
-                {
-                    b.Navigation("Products");
-
                     b.Navigation("Services");
                 });
 #pragma warning restore 612, 618
