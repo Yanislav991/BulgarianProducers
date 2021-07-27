@@ -3,7 +3,6 @@ using BulgarianProducers.Services.Contracts;
 using BulgarianProducers.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Linq;
 
 namespace BulgarianProducers.Controllers
 {
@@ -22,8 +21,6 @@ namespace BulgarianProducers.Controllers
         {
             //var lastSixProducts = getServicesAndProducts.GetServicesAndProducts()
                 //.Take(6).ToList();
-                
-
             return View();
         }
         public IActionResult All(ProductsAndServicesQueryModel queryModel)

@@ -19,6 +19,8 @@ namespace BulgarianProducers.Data.Models
         public decimal Price { get; set; }
         //TODO: Files to be on the file system.
         public string ImageUrl { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
     }

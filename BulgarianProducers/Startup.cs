@@ -1,4 +1,5 @@
 using BulgarianProducers.Data;
+using BulgarianProducers.Data.Models;
 using BulgarianProducers.Infrastructure;
 using BulgarianProducers.Services;
 using BulgarianProducers.Services.Contracts;
@@ -29,12 +30,18 @@ namespace BulgarianProducers
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<User>(options => {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireUppercase = false;
+                }
+            )
                 .AddEntityFrameworkStores<BulgarianProducersDbContext>();
             services.AddControllersWithViews();
 
             services.AddTransient<IGetServicesAndProductsService, GetServicesAndProductsService>();
-          
             services.AddTransient<IEventsService, EventService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoriesService, CategoriesService>();

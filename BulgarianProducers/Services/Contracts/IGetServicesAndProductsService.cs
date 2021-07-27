@@ -1,6 +1,5 @@
 ﻿using BulgarianProducers.Models;
 using BulgarianProducers.Services.Models;
-using System.Collections.Generic;
 
 namespace BulgarianProducers.Services.Contracts
 {
