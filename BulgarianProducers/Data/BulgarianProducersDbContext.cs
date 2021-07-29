@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BulgarianProducers.Data
 {
-    public class BulgarianProducersDbContext : IdentityDbContext
+    public class BulgarianProducersDbContext : IdentityDbContext<User>
     {
         public BulgarianProducersDbContext(DbContextOptions<BulgarianProducersDbContext> options)
             : base(options)
