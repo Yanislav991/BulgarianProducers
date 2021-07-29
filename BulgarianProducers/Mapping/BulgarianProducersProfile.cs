@@ -13,16 +13,20 @@ namespace BulgarianProducers.Mapping
         public BulgarianProducersProfile()
         {
             this.CreateMap<Product, ProductsAndServicesListingModel>()
-                .ForMember(x => x.IsProduct, x => x.MapFrom(x=> true));
+                .ForMember(x => x.IsProduct, x => x.MapFrom(x=> true))
+                .ForMember(x=>x.UpdatedOn, x=>x.MapFrom(x=>x.UpdatedDate))
+                .ForMember(x=>x.CreatedOn, x=>x.MapFrom(x=>x.CreatedDate));
 
             this.CreateMap<Service, ProductsAndServicesListingModel>()
-                .ForMember(x => x.IsProduct, x => x.MapFrom(x=>false));
+                .ForMember(x => x.IsProduct, x => x.MapFrom(x=>false))
+                .ForMember(x => x.UpdatedOn, x => x.MapFrom(x => x.UpdatedDate))
+                .ForMember(x => x.CreatedOn, x => x.MapFrom(x => x.CreatedDate)); ;
             this.CreateMap<AddServiceFormModel, Service>()
                 .ForMember(x => x.TimeNeeded, x => x.Ignore())
                 .ForMember(x => x.Description, x => x.MapFrom(x => x.AdditionalInformation));
 
             this.CreateMap<Product, ProductViewModel>();
-            this.CreateMap<AddProductFormModel, Product>();
+            this.CreateMap<AddProductFormModel, Product>().ReverseMap();
 
             this.CreateMap<Service, ServiceViewModel>()
                 .ForMember(x=>x.TimeNeeded, x=>x

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BulgarianProducers.Data.Models;
+using System;
 
 namespace BulgarianProducers.Infrastructure
 {
@@ -6,5 +7,7 @@ namespace BulgarianProducers.Infrastructure
     {
         public DateTime? UpdatedDate { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace BulgarianProducers.Models.Services
 {
     public class AddServiceFormModel
     {
+        public string UserId { get; set; }
         [Required]
         [MaxLength(ProductNameMaxLenght)]
         public string Name { get; set; }

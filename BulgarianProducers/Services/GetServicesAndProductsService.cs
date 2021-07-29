@@ -21,10 +21,11 @@ namespace BulgarianProducers.Services
 
         public ProductsAndServicesQueryModel GetServicesAndProducts(
             string searchTerm,
-            ProductsAndServicesSorting sorting, 
-            bool showProducts, 
-            bool showServices, 
-            int currentPage)
+            ProductsAndServicesSorting sorting,
+            bool showProducts,
+            bool showServices,
+            int currentPage,
+            string userId = null)
         {
             var listingEntities = new List<ProductsAndServicesListingModel>();
             if (showProducts && !showServices) 
@@ -58,11 +59,22 @@ namespace BulgarianProducers.Services
                 ProductsAndServicesSorting.FirstProducts =>listingEntities.OrderByDescending(x=>x.IsProduct).ToList(),
                 ProductsAndServicesSorting.FirstServices => listingEntities.OrderBy(x=>x.IsProduct).ToList()
             };
-
-            var elementsToShow = listingEntities
-                .Skip((currentPage - 1) * ProductsAndServicesPerPage)
-                .Take(ProductsAndServicesPerPage)
-                .ToList();
+            //Not good to be here 
+            List<ProductsAndServicesListingModel> elementsToShow;
+            if (userId == null)
+            {
+                elementsToShow = listingEntities
+                    .Skip((currentPage - 1) * ProductsAndServicesPerPage)
+                    .Take(ProductsAndServicesPerPage)
+                    .ToList();
+            }
+            else 
+            {
+                elementsToShow = listingEntities.Where(x=>x.UserId == userId)
+                    .Skip((currentPage - 1) * ProductsAndServicesPerPage)
+                    .Take(ProductsAndServicesPerPage)
+                    .ToList();
+            }
             var queryResult = new ProductsAndServicesQueryModel()
             {
                 CurrentPage= currentPage,

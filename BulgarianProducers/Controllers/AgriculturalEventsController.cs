@@ -1,6 +1,7 @@
 ﻿using BulgarianProducers.Models.Events;
 using BulgarianProducers.Services.Contracts;
 using BulgarianProducers.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulgarianProducers.Controllers
@@ -17,6 +18,7 @@ namespace BulgarianProducers.Controllers
         public IActionResult Add() => this.View();
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddAgriculturalEventFormModel eventModel)
         {
             if (!ModelState.IsValid)
@@ -27,6 +29,7 @@ namespace BulgarianProducers.Controllers
             return this.Redirect(nameof(AllEvents));
 
         }
+        [AllowAnonymous]
         public IActionResult AllEvents([FromQuery] AgriculturalEventQueryModel queryModel)
         {
             var queryResult = this.eventsService.GetEvents(

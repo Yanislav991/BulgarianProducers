@@ -11,7 +11,8 @@ namespace BulgarianProducers.Services.Contracts
             ProductsAndServicesSorting sorting,
             bool showProducts,
             bool showServices,
-            int currentPage);
+            int currentPage,
+            string userId = null);
         
     }
 }

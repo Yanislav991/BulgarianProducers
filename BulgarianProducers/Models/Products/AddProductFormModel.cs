@@ -6,6 +6,7 @@ namespace BulgarianProducers.Models.Products
 {
     public class AddProductFormModel
     {
+        public string UserId { get; set; }
         [Required]
         [MaxLength(ProductNameMaxLenght)]
         [MinLength(3, ErrorMessage = "Името на продукта трябва да е поне 3 символа!")]
