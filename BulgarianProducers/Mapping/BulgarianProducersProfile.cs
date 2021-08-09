@@ -39,7 +39,8 @@ namespace BulgarianProducers.Mapping
                 .ToString(@"dd\.hh\:mm\:ss") : "Не е посочено време"));
             this.CreateMap<AddAgriculturalEventFormModel, AgriculturalEvent>()
                 .ForMember(x=>x.StartDate, x=>x.Ignore())
-                .ForMember(x=>x.EndDate, x=>x.Ignore());
+                .ForMember(x=>x.EndDate, x=>x.Ignore())
+                .ReverseMap();
 
 
             //This is not working for pictures idk why .. :/

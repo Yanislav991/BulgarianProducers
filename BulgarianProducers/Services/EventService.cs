@@ -54,6 +54,39 @@ namespace BulgarianProducers.Services
             this.data.SaveChanges();
         }
 
+        public bool Edit(
+            int id, 
+            string name,
+            string startDate,
+            string description,
+            string endDate,
+            string image1,
+            string image2, 
+            string image3,
+            string place)
+        {
+            var @event = this.data.AgriculturalEvents.Find(id);
+            if (@event == null) 
+            {
+                return false;
+            }
+            var oldImages = this.data.EventImages.Where(x => x.AgriculturalEventId == id);
+            this.data.EventImages.RemoveRange(oldImages);
+            this.data.SaveChanges();
+            var eventImages = new List<EventImage>();
+            eventImages.Add(new EventImage { Url = image1 });
+            eventImages.Add(new EventImage { Url = image2 });
+            eventImages.Add(new EventImage { Url = image3 });
+            @event.Description = description;
+            @event.Name = name;
+            @event.Place = place;
+            @event.StartDate = ParseDate(startDate);
+            @event.EndDate = ParseDate(endDate);
+            @event.EventImages = eventImages;
+            this.data.SaveChanges();
+            return true;
+        }
+
         public AgriculturalEventInfoModel GetEventById(int id)
         {
             var @event = data.AgriculturalEvents
@@ -76,6 +109,10 @@ namespace BulgarianProducers.Services
 
         }
 
+        public AgriculturalEvent GetEventData(int id)
+        {
+            return this.data.AgriculturalEvents.Find(id);
+        }
 
         public AgriculturalEventQueryModel GetEvents(
             string searchTerm,

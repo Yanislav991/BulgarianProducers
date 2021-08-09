@@ -7,7 +7,7 @@ namespace BulgarianProducers.Models.Events
 {
     public class AddAgriculturalEventFormModel:IValidatableObject
     {
- 
+        public int Id { get; set; }
         [Required]
         [MaxLength(40)]
         [MinLength(3)]
@@ -53,7 +53,7 @@ namespace BulgarianProducers.Models.Events
             }
             if (!isValidEndDate) 
             {
-                yield return new ValidationResult("Невалидна стартова дата, моля въведете датата в следния формат 'dd/MM/yyyy'! ");
+                yield return new ValidationResult("Невалидна крайна дата, моля въведете датата в следния формат 'dd/MM/yyyy'! ");
             }
             if (isValidStartDate && isValidEndDate) 
             {
