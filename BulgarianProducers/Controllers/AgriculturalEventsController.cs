@@ -15,20 +15,7 @@ namespace BulgarianProducers.Controllers
             this.eventsService = eventsService;
         }
 
-        public IActionResult Add() => this.View();
 
-        [HttpPost]
-        [Authorize]
-        public IActionResult Add(AddAgriculturalEventFormModel eventModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return this.View();
-            }
-            this.eventsService.AddEvent(eventModel);
-            return this.Redirect(nameof(AllEvents));
-
-        }
         [AllowAnonymous]
         public IActionResult AllEvents([FromQuery] AgriculturalEventQueryModel queryModel)
         {
@@ -43,7 +30,7 @@ namespace BulgarianProducers.Controllers
             return this.View(queryResult);
         }
 
-
+        [Authorize]
         public IActionResult Info(int id)
         {
 

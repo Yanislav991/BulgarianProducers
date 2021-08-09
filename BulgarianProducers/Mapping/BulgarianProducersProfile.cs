@@ -24,9 +24,14 @@ namespace BulgarianProducers.Mapping
             this.CreateMap<AddServiceFormModel, Service>()
                 .ForMember(x => x.TimeNeeded, x => x.Ignore())
                 .ForMember(x => x.Description, x => x.MapFrom(x => x.AdditionalInformation));
+                
+                
 
             this.CreateMap<Product, ProductViewModel>();
             this.CreateMap<AddProductFormModel, Product>().ReverseMap();
+
+            this.CreateMap<Service, AddServiceFormModel>().ForMember(x => x.TimeNeeded, x => x
+                  .MapFrom(x => x.TimeNeeded.HasValue ? x.TimeNeeded.Value.Hours : default(int)));
 
             this.CreateMap<Service, ServiceViewModel>()
                 .ForMember(x=>x.TimeNeeded, x=>x

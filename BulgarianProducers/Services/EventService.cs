@@ -47,6 +47,13 @@ namespace BulgarianProducers.Services
             data.SaveChanges();
         }
 
+        public void Delete(int id)
+        {
+            var @event = this.data.AgriculturalEvents.Where(x => x.Id == id).FirstOrDefault();
+            this.data.AgriculturalEvents.Remove(@event);
+            this.data.SaveChanges();
+        }
+
         public AgriculturalEventInfoModel GetEventById(int id)
         {
             var @event = data.AgriculturalEvents

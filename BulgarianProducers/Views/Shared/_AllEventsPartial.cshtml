@@ -1,0 +1,49 @@
+﻿@model List<AgriculturalEventInfoModel>
+@{
+    bool isAdmin = this.User.IsInRole("Admin");
+    string adminArea = "Admin";
+    var i = 0;
+}
+
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Име</th>
+                <th scope="col">Къде се провежда</th>
+                <th scope="col">Започва на</th>
+                <th scope="col">Приключва</th>
+                <th scope="col">Информация</th>>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var element in Model)
+            {
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@element.Name</td>
+                    <td>@element.Place</td>
+                    <td>@element.StartDate</td>
+                    <td>@element.EndDate</td>
+                    <td>
+                        <a asp-area="" asp-controller="AgriculturalEvents" asp-action="Info" class="btn btn-primary" asp-route-id="@element.Id"><i class="fas fa-search"></i></a>
+                        @if (isAdmin)
+                        {
+                            <a asp-area="@adminArea" asp-controller="AgriculturalEvents" asp-action="Edit" class="btn btn-warning" asp-route-id="@element.Id"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a asp-area="@adminArea" asp-controller="AgriculturalEvents" asp-action="Delete" class="btn btn-danger" asp-route-id="@element.Id"><i class="fas fa-trash"></i></a>
+                        }
+
+
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+    @if (isAdmin)
+    {
+        <a class="nav-link btn-primary btn-lg" asp-area="@adminArea" asp-controller="AgriculturalEvents" asp-action="Add">Добави ново събитие!</a>
+    }
+}

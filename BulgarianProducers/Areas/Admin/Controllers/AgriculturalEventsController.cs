@@ -1,4 +1,5 @@
-﻿using BulgarianProducers.Services.Contracts;
+﻿using BulgarianProducers.Models.Events;
+using BulgarianProducers.Services.Contracts;
 using BulgarianProducers.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -28,6 +29,24 @@ namespace BulgarianProducers.Areas.Admin.Controllers
                 queryModel.Sorting);
 
             return this.View(queryResult);
+        }
+        public IActionResult Add() => this.View();
+
+        [HttpPost]
+        public IActionResult Add(AddAgriculturalEventFormModel eventModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.View();
+            }
+            this.eventsService.AddEvent(eventModel);
+            return this.Redirect(nameof(AllEvents));
+
+        }
+        public IActionResult Delete(int id) 
+        {
+            this.eventsService.Delete(id);
+            return this.Redirect("/Admin/AgriculturalEvents/AllEvents/");
         }
     }
 }
