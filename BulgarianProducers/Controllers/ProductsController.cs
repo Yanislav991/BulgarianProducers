@@ -33,6 +33,7 @@ namespace BulgarianProducers.Controllers
             if (!isProduct) return this.BadRequest();
             var productToShow = this.productService.GetProduct(id);
             if (productToShow == null) return this.BadRequest();
+            
             return this.View(productToShow);
         }
         public IActionResult Add() 

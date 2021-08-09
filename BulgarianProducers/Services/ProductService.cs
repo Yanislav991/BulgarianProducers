@@ -61,6 +61,12 @@ namespace BulgarianProducers.Services
         {
             var product = GetDataProduct(id);
             var productToShow = mapper.Map<ProductViewModel>(product);
+            var user = this.userManager.FindByIdAsync(this.GetDataProduct(id).UserId).Result;
+            if (user != null)
+            {
+                productToShow.UserUsername = user.UserName;
+                productToShow.UserPhoneNumber = user.PhoneNumber;
+            }
             return productToShow;
         }
     }

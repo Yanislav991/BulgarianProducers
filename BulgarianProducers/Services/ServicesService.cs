@@ -3,8 +3,10 @@ using BulgarianProducers.Data;
 using BulgarianProducers.Data.Models;
 using BulgarianProducers.Models.Services;
 using BulgarianProducers.Services.Contracts;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BulgarianProducers.Services
 {
@@ -12,11 +14,13 @@ namespace BulgarianProducers.Services
     {
         private readonly BulgarianProducersDbContext data;
         private readonly IMapper mapper;
+        private readonly UserManager<User> userManager;
 
-        public ServicesService(IMapper mapper, BulgarianProducersDbContext data)
+        public ServicesService(IMapper mapper, BulgarianProducersDbContext data, UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.data = data;
+            this.userManager = userManager;
         }
 
         public void AddService(AddServiceFormModel serviceFormModel)
@@ -24,6 +28,7 @@ namespace BulgarianProducers.Services
             var ts = TimeSpan.FromHours((double)serviceFormModel.TimeNeeded);
             var validService = mapper.Map<Service>(serviceFormModel);
             validService.TimeNeeded = ts;
+
             data.Services.Add(validService);
             data.SaveChanges();
 
@@ -33,6 +38,12 @@ namespace BulgarianProducers.Services
         {
             var service = this.GetDataService(id);
             var serviceToShow = mapper.Map<ServiceViewModel>(service);
+            var user = this.userManager.FindByIdAsync(service.UserId).Result;
+            if (user != null)
+            {
+                serviceToShow.UserUsername = user.UserName;
+                serviceToShow.UserPhoneNumber = user.PhoneNumber;
+            }
             return serviceToShow;
         }
         public Service GetDataService(int id)

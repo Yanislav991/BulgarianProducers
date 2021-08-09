@@ -8,5 +8,7 @@
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public string ServiceType { get; set; }
+        public string UserPhoneNumber { get; set; }
+        public string UserUsername { get; set; }
     }
 }
