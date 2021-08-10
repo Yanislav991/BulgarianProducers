@@ -19,6 +19,18 @@ namespace BulgarianProducers.Services
             this.mapper = mapper;
         }
 
+        public List<ProductsAndServicesListingModel> GetLastSix()
+        {
+            var listingEntities = new List<ProductsAndServicesListingModel>();
+            var products = data.Products.ToList();
+            listingEntities.AddRange(mapper.Map<List<ProductsAndServicesListingModel>>(products));
+            var services = data.Services.ToList();
+            var listingServices = mapper.Map<List<ProductsAndServicesListingModel>>(services);
+            listingEntities.AddRange(listingServices);
+            listingEntities = listingEntities.OrderByDescending(x => x.CreatedOn).Take(6).ToList();
+            return listingEntities;
+        }
+
         public ProductsAndServicesQueryModel GetServicesAndProducts(
             string searchTerm,
             ProductsAndServicesSorting sorting,

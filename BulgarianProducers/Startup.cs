@@ -33,6 +33,7 @@ namespace BulgarianProducers
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            services.AddMemoryCache();
             services.AddAuthorization(x => x.AddPolicy("RequireAdministratorRole", x => x.RequireRole("Admin")));
             services.AddDefaultIdentity<User>(options =>
             {

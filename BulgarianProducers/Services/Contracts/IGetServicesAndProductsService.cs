@@ -13,6 +13,7 @@ namespace BulgarianProducers.Services.Contracts
             bool showServices,
             int currentPage,
             string userId = null);
-        
+
+        public List<ProductsAndServicesListingModel> GetLastSix();
     }
 }
