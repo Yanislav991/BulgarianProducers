@@ -36,7 +36,7 @@ namespace BulgarianProducers.Services
         public bool Edit(int id, string name, decimal price, string description, int categoryId, string imageUrl)
         {
             var product = this.data.Products.Find(id);
-            if (product == null) 
+            if (product == null)
             {
                 return false;
             }
@@ -47,13 +47,13 @@ namespace BulgarianProducers.Services
             product.ImageUrl = imageUrl;
             this.data.SaveChanges();
             return true;
-                
+
         }
 
         public Product GetDataProduct(int id)
         {
-           var product =data.Products.Where(x => x.Id == id)
-          .FirstOrDefault();
+            var product = data.Products.Where(x => x.Id == id)
+           .FirstOrDefault();
             return product;
         }
 
@@ -61,11 +61,14 @@ namespace BulgarianProducers.Services
         {
             var product = GetDataProduct(id);
             var productToShow = mapper.Map<ProductViewModel>(product);
-            var user = this.userManager.FindByIdAsync(this.GetDataProduct(id).UserId).Result;
-            if (user != null)
+            if (product != null)
             {
-                productToShow.UserUsername = user.UserName;
-                productToShow.UserPhoneNumber = user.PhoneNumber;
+                var user = this.userManager.FindByIdAsync(product.UserId).Result;
+                if (user != null)
+                {
+                    productToShow.UserUsername = user.UserName;
+                    productToShow.UserPhoneNumber = user.PhoneNumber;
+                }
             }
             return productToShow;
         }

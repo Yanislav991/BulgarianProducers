@@ -9,22 +9,31 @@ using System.Threading.Tasks;
 using Xunit;
 using static BulgarianProducers.Test.Data.ProductsServices;
 using static BulgarianProducers.Test.Data.AdminUser;
+using BulgarianProducers.Data.Models;
 
 namespace BulgarianProducers.Test.Controllers
 {
     public class HomeControllerTest
     {
-        //[Fact]
-        //public void MineShouldReturnToView()
-        //    => MyController<HomeController>
-        //    .Instance()
-        //    .Calling(c => c.Mine(new ProductsAndServicesQueryModel()))
-        //    .ShouldHave()
-        //    .ActionAttributes(a =>
-        //             a.RestrictingForAuthorizedRequests())
-        //    .AndAlso()
-        //    .ShouldReturn()
-        //    .View();
+        [Fact]
+        public void MineShouldReturnToView()
+            => MyController<HomeController>
+            .Instance()
+            .WithUser()
+            .WithData(new User() 
+            {
+                Id= "TestId"
+            })
+            .Calling(c => c.Mine(new ProductsAndServicesQueryModel()
+            {
+                ProductsAndServices = TenEntities.ToList()
+            }))
+            .ShouldHave()
+            .ActionAttributes(a =>
+                     a.RestrictingForAuthorizedRequests())
+            .AndAlso()
+            .ShouldReturn()
+            .View();
 
         [Fact]
         public void ActionAllShouldReturnView()

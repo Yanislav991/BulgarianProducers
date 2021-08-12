@@ -39,6 +39,7 @@ namespace BulgarianProducers.Services
             int currentPage,
             string userId = null)
         {
+        
             var listingEntities = new List<ProductsAndServicesListingModel>();
             if (showProducts && !showServices) 
             {

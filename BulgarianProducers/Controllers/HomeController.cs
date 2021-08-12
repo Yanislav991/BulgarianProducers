@@ -63,6 +63,7 @@ namespace BulgarianProducers.Controllers
         public async Task<IActionResult> Mine(ProductsAndServicesQueryModel queryModel)
         {
             var user = await this.userManager.GetUserAsync(this.User);
+
             var queryResult = getServicesAndProducts.GetServicesAndProducts(
                 queryModel.SearchTerm,
                 queryModel.Sorting,

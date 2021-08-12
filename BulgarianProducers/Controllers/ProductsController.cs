@@ -27,7 +27,7 @@ namespace BulgarianProducers.Controllers
             this.userManager = userManager;
             this.mapper = mapper;
         }
-
+        [Authorize]
         public IActionResult Details(int id, bool isProduct) 
         {
             if (!isProduct) return this.BadRequest();
@@ -36,17 +36,19 @@ namespace BulgarianProducers.Controllers
             
             return this.View(productToShow);
         }
+        [Authorize]
         public IActionResult Add() 
         { 
             return this.View(new AddProductFormModel { Categories = this.categoriesService.GetCategories()});
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Add(AddProductFormModel product)
         {
-            if (!this.categoriesService.CheckForCategoryById(product.CategoryId)) 
-            {
-                this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
-            }
+            //if (!this.categoriesService.CheckForCategoryById(product.CategoryId)) 
+            //{
+            //    this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
+            //}
             if (!ModelState.IsValid) 
             {
                 product.Categories = this.categoriesService.GetCategories();
@@ -57,6 +59,7 @@ namespace BulgarianProducers.Controllers
             this.productService.AddProduct(product);
             return this.Redirect("/");
         }
+        [Authorize]
         public async Task<IActionResult> Delete(int Id, string userId) 
         {
             var user = await this.userManager.GetUserAsync(this.User);
@@ -77,6 +80,7 @@ namespace BulgarianProducers.Controllers
             this.productService.DeleteProduct(product);
             return this.Redirect("/Home/Mine");
         }
+        [Authorize]
         public IActionResult Edit(int id, string userId) 
         {
             var product = this.productService.GetDataProduct(id);
@@ -93,6 +97,7 @@ namespace BulgarianProducers.Controllers
             return this.View(productToEdit); 
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, AddProductFormModel product) 
         {
             if (!this.categoriesService.CheckForCategoryById(product.CategoryId)) 
