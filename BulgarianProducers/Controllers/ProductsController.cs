@@ -5,6 +5,7 @@ using BulgarianProducers.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BulgarianProducers.Controllers
@@ -45,13 +46,14 @@ namespace BulgarianProducers.Controllers
         [Authorize]
         public async Task<IActionResult> Add(AddProductFormModel product)
         {
-            //if (!this.categoriesService.CheckForCategoryById(product.CategoryId)) 
-            //{
-            //    this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
-            //}
+            var categories = this.categoriesService.GetCategories();
+            if (!categories.Any(x=>x.Id == product.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(product.CategoryId), "Category does not exist.");
+            }
             if (!ModelState.IsValid) 
             {
-                product.Categories = this.categoriesService.GetCategories();
+                product.Categories = categories;
                 return View(product);
             }
             var user = await this.userManager.GetUserAsync(this.User);

@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     var area = "";
     if (this.User.IsInRole("Admin"))
     {
@@ -25,21 +25,29 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">Добави продукт</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Services" asp-action="Add">Добави услуга</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="All">Всички</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Mine">Моите Обяви</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="@area" asp-controller="AgriculturalEvents" asp-action="AllEvents">Събития</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="dropdown col-2">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Добави
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Add">Продукт</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Services" asp-action="Add">Услуга</a>
+                                </div>
+                            </li>
+                            <li class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Виж
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="All">Всички</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Mine">Моите обяви</a>
+                                    <a class="nav-link text-dark" asp-area="@area" asp-controller="AgriculturalEvents" asp-action="AllEvents">Събития</a>
+                                </div>
+                            </li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Chat">Лафче</a>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -59,6 +67,10 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <script src="~/lib/bootstrap/dist/css"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/d8f5e53c07.js" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)

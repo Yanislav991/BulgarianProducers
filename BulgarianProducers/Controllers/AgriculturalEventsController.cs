@@ -1,5 +1,4 @@
-﻿using BulgarianProducers.Models.Events;
-using BulgarianProducers.Services.Contracts;
+﻿using BulgarianProducers.Services.Contracts;
 using BulgarianProducers.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +13,6 @@ namespace BulgarianProducers.Controllers
         {
             this.eventsService = eventsService;
         }
-
-
         [AllowAnonymous]
         public IActionResult AllEvents([FromQuery] AgriculturalEventQueryModel queryModel)
         {
@@ -26,14 +23,11 @@ namespace BulgarianProducers.Controllers
                  queryModel.EndBefore,
                  queryModel.CurrentPage,
                  queryModel.Sorting);
-
             return this.View(queryResult);
         }
-
         [Authorize]
         public IActionResult Info(int id)
         {
-
             var @event = this.eventsService.GetEventById(id);
             if (@event == null)
             {

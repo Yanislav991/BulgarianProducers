@@ -1,5 +1,6 @@
 using BulgarianProducers.Data;
 using BulgarianProducers.Data.Models;
+using BulgarianProducers.Hubs;
 using BulgarianProducers.Infrastructure;
 using BulgarianProducers.Services;
 using BulgarianProducers.Services.Contracts;
@@ -47,6 +48,7 @@ namespace BulgarianProducers
                 .AddEntityFrameworkStores<BulgarianProducersDbContext>();
             services.AddControllersWithViews(x=>x.Filters.Add<AutoValidateAntiforgeryTokenAttribute>());
 
+            services.AddSignalR();
             services.AddTransient<IGetServicesAndProductsService, GetServicesAndProductsService>();
           
             services.AddTransient<IEventsService, EventService>();
@@ -69,6 +71,8 @@ namespace BulgarianProducers
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+          
+
             app.UseHttpsRedirection()
             .UseStaticFiles()
             .UseRouting()
@@ -76,6 +80,7 @@ namespace BulgarianProducers
             .UseAuthorization()
             .UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapControllerRoute(
                 name: "Areas",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

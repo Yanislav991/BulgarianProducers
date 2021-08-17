@@ -9,7 +9,6 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BulgarianProducers.Controllers
@@ -26,12 +25,15 @@ namespace BulgarianProducers.Controllers
             UserManager<User> userManager = null,
             IMemoryCache cache = null)
         {
-
             this.getServicesAndProducts = getServicesAndProducts;
             this.userManager = userManager;
             this.cache = cache;
         }
-
+        [Authorize]
+        public IActionResult Chat()
+        {
+            return this.View();
+        }
         [AllowAnonymous]
         public IActionResult Index()
         {
@@ -73,7 +75,6 @@ namespace BulgarianProducers.Controllers
                 user.Id);
             return this.View(queryResult.ProductsAndServices);
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

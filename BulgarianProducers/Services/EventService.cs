@@ -144,8 +144,9 @@ namespace BulgarianProducers.Services
             }
             events = sorting switch
             {
-                EventSorting.Name => events.OrderBy(x=>x.Name),
-                EventSorting.Date => events.OrderBy(x=>x.StartDate)
+                EventSorting.Name => events.OrderBy(x => x.Name),
+                EventSorting.Date => events.OrderBy(x => x.StartDate),
+                _ => events.OrderBy(x=>x.Id)
             };
             
              

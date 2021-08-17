@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulgarianProducers", "BulgarianProducers.csproj", "{AA957B43-D80C-46F3-8EF0-72CEAE673C51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulgarianProducers.Test", "..\BulgarianProducers.Test\BulgarianProducers.Test.csproj", "{AC8B40E2-51C4-4FB6-A975-CF16A1D5A51C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulgarianProducers.Test", "..\BulgarianProducers.Test\BulgarianProducers.Test.csproj", "{AC8B40E2-51C4-4FB6-A975-CF16A1D5A51C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

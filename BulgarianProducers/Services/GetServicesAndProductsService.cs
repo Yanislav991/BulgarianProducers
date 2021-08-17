@@ -69,8 +69,9 @@ namespace BulgarianProducers.Services
             {
                 ProductsAndServicesSorting.Name => listingEntities.OrderBy(x => x.Name).ToList(),
                 ProductsAndServicesSorting.Price => listingEntities.OrderBy(x => x.Price).ToList(),
-                ProductsAndServicesSorting.FirstProducts =>listingEntities.OrderByDescending(x=>x.IsProduct).ToList(),
-                ProductsAndServicesSorting.FirstServices => listingEntities.OrderBy(x=>x.IsProduct).ToList()
+                ProductsAndServicesSorting.FirstProducts => listingEntities.OrderByDescending(x => x.IsProduct).ToList(),
+                ProductsAndServicesSorting.FirstServices => listingEntities.OrderBy(x => x.IsProduct).ToList(),
+                _ => listingEntities.OrderBy(x=>x.CreatedOn).ToList(),
             };
             //Not good to be here 
             List<ProductsAndServicesListingModel> elementsToShow;
