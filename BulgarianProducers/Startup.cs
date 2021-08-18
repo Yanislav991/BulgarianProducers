@@ -50,7 +50,8 @@ namespace BulgarianProducers
 
             services.AddSignalR();
             services.AddTransient<IGetServicesAndProductsService, GetServicesAndProductsService>();
-          
+
+            services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IEventsService, EventService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICategoriesService, CategoriesService>();

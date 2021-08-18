@@ -1,35 +1,35 @@
 ﻿@model ProductsAndServicesQueryModel
 <form method="get">
-    
-        <div class="row">
-            <div class="row m-3 pb-0">
-                <label asp-for="SearchTerm"></label>
-                <input asp-for="SearchTerm" class="form-control" placeholder="Име ...">
+
+    <div class="row">
+        <div class="row m-3 pb-0">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="Име ...">
+        </div>
+        <div class="row m-3">
+            <div class="form-group">
+                <label asp-for="Sorting"></label>
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0" selected>Име</option>
+                    <option value="1">Цена</option>
+                    <option value="2">Първо продукти</option>
+                    <option value="3">Първо услуги</option>
+                </select>
             </div>
             <div class="row m-3">
-                <div class="form-group">
-                    <label asp-for="Sorting"></label>
-                    <select asp-for="Sorting" class="form-control">
-                        <option value="0" selected>Име</option>
-                        <option value="1">Цена</option>
-                        <option value="2">Първо продукти</option>
-                        <option value="3">Първо услуги</option>
-                    </select>
-                </div>
-                <div class="row m-3">
-                    <label asp-for="ShowServices"></label>
-                    <input asp-for="ShowServices" class="form-control">
-                </div>
-                <div class="row m-3">
-                    <label asp-for="ShowProducts"></label>
-                    <input asp-for="ShowProducts" class="form-control">
-                </div>
+                <label asp-for="ShowServices"></label>
+                <input asp-for="ShowServices" class="form-control">
+            </div>
+            <div class="row m-3">
+                <label asp-for="ShowProducts"></label>
+                <input asp-for="ShowProducts" class="form-control">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">
-            <i class="fas fa-search"></i>
-        </button>
-    
+    </div>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-search"></i>
+    </button>
+
 </form>
 <partial name="_AllPartial" model="@Model.ProductsAndServices" />
 <nav aria-label="...">
@@ -50,3 +50,29 @@
 
     </ul>
 </nav>
+@section SideBar
+    {
+    <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
+    <div class="jumbotron d-none" id="statistics">
+        <div class="row">
+            <h2 class="col-md-4 text-center" id="total-products"></h2>
+            <h2 class="col-md-4 text-center" id="total-users"></h2>
+            <h2 class="col-md-4 text-center" id="total-services"></h2>
+        </div>
+    </div>
+}
+@section Scripts
+{
+    <script>
+        $('#statistics-button').on('click', ev => {
+            $.get('/api/statistics', (data) => {
+                $('#total-products').text(data.totalProducts + " Products");
+                $('#total-services').text(data.totalServices + " Services");
+                $('#total-users').text(data.totalUsers + " Users");
+                $('#statistics').removeClass('d-none');
+                $('#statistics-button').hide();
+            });
+        });
+    </script>
+
+}

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
+    <header id="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Българския пазар</a>
@@ -46,7 +46,9 @@
                                     <a class="nav-link text-dark" asp-area="@area" asp-controller="AgriculturalEvents" asp-action="AllEvents">Събития</a>
                                 </div>
                             </li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Chat">Лафче</a>
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Chat">Лафче</a>
+                            </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
@@ -54,6 +56,9 @@
             </div>
         </nav>
     </header>
+    <div id="sidebar">
+        @RenderSection("SideBar", required:false)
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
